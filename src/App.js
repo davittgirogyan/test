@@ -13,16 +13,19 @@ import MyProducts from './components/MyProducts/MyProducts';
 
 
 const App = () => {
-  const state = useSelector(e => e.auth);
-  console.log(state);
+  const {isLoggedIn} = useSelector(e => e.auth);
   return (
     <div className="App">
       <Header/>
         <Route path='/login' component={Login} />
         <Route path='/register' component={Register} />
         <Route path='/' exact component={Home} />
+        {/* logged in routes */}
+        {isLoggedIn && <>
         <Route path='/products' exact component={Products} />
         <Route path='/my-products' exact component={MyProducts} />
+        </>
+       }
     </div>
   );
 }
