@@ -1,4 +1,4 @@
-import { FETCH_ALL_PRODUCTS, FETCH_MY_PRODUCTS } from "./actions/productActions"
+import { FETCH_ALL_PRODUCTS, FETCH_MY_PRODUCTS, ADD_TO_MY_PRODUCTS } from "./actions/productActions"
 
 const initialState = {
     allProducts: [],
@@ -17,6 +17,13 @@ const ProductsReducer = (state = initialState,action) => {
             return {
                 ...state,
                 myProducts: action.payload
+            }
+        }
+        case ADD_TO_MY_PRODUCTS: {
+            return {
+                ...state,
+                myProducts: [...state.myProducts, action.payload],
+                allProducts: [...state.allProducts, action.payload]
             }
         }
         default: {

@@ -16,7 +16,6 @@ export const login = (data) => async dispatch => {
     // mock request api with timeout 
     const res = await api('login', data);
     if (res.status === 200) {
-        console.log(res);
         dispatch(successLoginFetching(res.data));
     } else {
         dispatch(errorLoginFetching())

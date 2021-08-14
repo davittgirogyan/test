@@ -8,10 +8,9 @@ const { Meta } = Card;
 const Products = () => {
     const dispatch = useDispatch()
     const { allProducts } = useSelector(state => state.products);
-    console.log(allProducts)
     useEffect(() => {
         dispatch(getAllProducts())
-    },[])
+    },[dispatch])
     return <div>
         <h1>All Products</h1>
         <div style={{display:'flex'}} >

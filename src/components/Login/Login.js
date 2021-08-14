@@ -1,4 +1,5 @@
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, message } from 'antd';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { login } from '../../store/action-creators/authActionCreators';
@@ -6,20 +7,19 @@ import { login } from '../../store/action-creators/authActionCreators';
 const Login = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const {isError, isLoggedIn, loading} = useSelector(state => state.auth)
+  const {isLoggedIn, loading, isError} = useSelector(state => state.auth)
   const onFinish = (values) => {
     dispatch(login(values))
-
-    console.log('Success:', values);
   };
 
-  const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-  };
-  console.log(loading)
   if (isLoggedIn) {
-      history.push('/')
+      history.push('/products')
   }
+  useEffect(() => {
+    if (isError) {
+      message.error('Login or password is wrong');
+    }
+  },[isError])
   return (
     <Form
       name="basic"
@@ -33,7 +33,6 @@ const Login = () => {
         remember: true,
       }}
       onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
     >
       <Form.Item
         label="Email"

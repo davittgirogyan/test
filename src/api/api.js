@@ -1,10 +1,11 @@
-export default async (type, data) => {
+const api = async (type, data) => {
     return new Promise(resolve => {
         switch(type) {
             case 'register': {
                 const users = JSON.parse(localStorage.getItem('users'));
                 if (!users) {
                     localStorage.setItem('users', JSON.stringify([{...data, id: 1}]))
+                    setTimeout(() => resolve({status: 200, message: 'user successfully registered'}), 3000);
                 } else {
                     const user = users.find(usr => usr.email === data.email);
                     if (!user) {
@@ -59,9 +60,31 @@ export default async (type, data) => {
                 }
                 break;
             }
+            case 'create-product': {
+                const userId = +localStorage.getItem('token');
+                if (!userId) {
+                    setTimeout(() => resolve({status: 403, message: 'please login for see your products'}));
+                } else {
+                    const AllProducts = JSON.parse(localStorage.getItem('products'));
+                    const newProduct = {...data, user_id: userId, id: AllProducts[AllProducts.length-1].id + 1};
+                    if (Array.isArray(AllProducts) && AllProducts.length) {
+                        const products = [
+                            ...AllProducts,
+                            newProduct
+                        ]
+                        localStorage.setItem('products', JSON.stringify(products))
+                        setTimeout(() => resolve({status: 200, data: newProduct }), 2000)
+                    } else {
+                        localStorage.setItem('products', JSON.stringify([newProduct]))   
+                        setTimeout(() => resolve({status: 200, data: [newProduct]}),2000);
+                    }
+                }
+                break;
+            }
             default: {
                 resolve({status: 500, message: 'Something whent wrong'})
             }
         }
     })
 }
+export default api;

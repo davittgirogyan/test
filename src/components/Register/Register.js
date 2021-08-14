@@ -1,23 +1,23 @@
 import { Form, Input, Button, message } from 'antd';
 import { useState } from 'react';
+import { useHistory } from 'react-router';
 import { register } from '../../store/action-creators/authActionCreators';
 
 const Register = () => {
     const [loading, setLoading] = useState(false);
+    const history = useHistory();
     const onFinish = (values) => {
         setLoading(true)
         register(values).then(e => {
-            console.log(e)
           setLoading(false)
-          e.status === 200 ? message.success(e.message) : message.error(e.message)
+          if(e.status === 200) {
+            message.success(e.message);
+            history.push('/login');
+          } else {
+            message.error(e.message);
+          } 
       }).catch(console.error)
-      console.log('Success:', values);
     };
-  
-    const onFinishFailed = (errorInfo) => {
-      console.log('Failed:', errorInfo);
-    };
-    console.log(loading)
     return (
       <Form
         name="basic"
@@ -31,7 +31,6 @@ const Register = () => {
           remember: true,
         }}
         onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
       >
         <Form.Item
           label="Full name"

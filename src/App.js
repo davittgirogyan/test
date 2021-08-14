@@ -22,8 +22,8 @@ const App = () => {
         <Route path='/' exact component={Home} />
         {/* logged in routes */}
         {isLoggedIn && <>
-        <Route path='/products' exact component={Products} />
-        <Route path='/my-products' exact component={MyProducts} />
+          <Route path='/products' exact component={Products} />
+          <Route path='/my-products' exact component={MyProducts} />
         </>
        }
     </div>

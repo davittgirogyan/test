@@ -13,7 +13,8 @@ const AuthReducer = (state = initialState, action) => {
         case START_LOGIN_FETCHING: {
             return {
                 ...state,
-                loading: true
+                loading: true,
+                isError: false,
             }
         }
         case SUCCESS_LOGIN_FETCHING: {
@@ -23,6 +24,7 @@ const AuthReducer = (state = initialState, action) => {
                 isLoggedIn: true,
                 email: action.payload.email,
                 fullName: action.payload.fullName,
+                isError: false,
             }
         }
         case ERROR_LOGIN_FETCHING: {
